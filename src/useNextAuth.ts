@@ -40,8 +40,8 @@ export const useNextAuth = (p: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       idJwt: undefined as any,
       isAdmin: p.adminEmails?.includes(su.email) ?? false,
-      updatedAt: 0,
-      nickname: '',
+      updatedAt: new Date().getTime(),
+      nickname: su.name || '',
     };
   }
   return {
