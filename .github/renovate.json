@@ -1,0 +1,10 @@
+{
+  "labels": [
+    "ag-common-next-auth"
+  ],
+  "extends": [
+    "github>andreigec/renovate"
+  ],
+  "schedule": "before 7am on tuesday and friday",
+  "prHourlyLimit": 0
+}

@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.bracketPairColorization.enabled": true,
+		"editor.guides.bracketPairs": "active",
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"files.exclude": {
+			"dist": true,
+			"**/.git": true,
+			"**/.DS_Store": true,
+			"**/node_modules": true,
+			"node_modules": true
+		}
+	}
+}
