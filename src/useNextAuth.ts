@@ -1,6 +1,12 @@
 import { info, warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
-import { signIn, SignInOptions, signOut, useSession } from 'next-auth/react';
+import {
+  signIn,
+  SignInOptions,
+  signOut,
+  useSession,
+  UseSessionOptions,
+} from 'next-auth/react';
 import { useEffect } from 'react';
 
 import { ISession } from './types';
@@ -12,11 +18,12 @@ export const useNextAuth = (p: {
   adminEmails?: string[];
   /** if true, will debug details. default false */
   debug?: boolean;
+  opt?: UseSessionOptions<boolean>;
 }) => {
-  const { status, data } = useSession();
+  const { status, data } = useSession(p.opt);
   const session = data as ISession;
   if (p.debug) {
-    info('use session=', session);
+    info('use session=', status, session);
   }
 
   useEffect(() => {
