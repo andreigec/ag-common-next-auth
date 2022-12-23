@@ -1,4 +1,4 @@
-import { warn } from 'ag-common/dist/common/helpers/log';
+import { info, warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
 import { signIn, SignInOptions, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
@@ -10,9 +10,14 @@ export const useNextAuth = (p: {
   COGNITO_CLIENT_ID: string;
   /** if supplied, will set isAdmin to true if email matches */
   adminEmails?: string[];
+  /** if true, will debug details. default false */
+  debug?: boolean;
 }) => {
   const { status, data } = useSession();
   const session = data as ISession;
+  if (p.debug) {
+    info('use session=', session);
+  }
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

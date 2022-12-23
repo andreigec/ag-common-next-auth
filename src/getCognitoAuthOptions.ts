@@ -1,5 +1,5 @@
-import { warn } from 'ag-common/dist/common/helpers/log';
-import NextAuth from 'next-auth';
+import { info, warn } from 'ag-common/dist/common/helpers/log';
+import NextAuth, { Account, Profile, User } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
@@ -12,9 +12,11 @@ export const getCognitoAuthOptions = (p: {
   NEXTAUTH_SECRET: string;
   COGNITO_ISSUER: string;
   COGNITO_BASE: string;
+  /** if true, will debug details. default false */
+  debug?: boolean;
 }) =>
   NextAuth({
-    debug: false,
+    debug: p.debug,
     providers: [
       CognitoProvider({
         clientId: p.COGNITO_CLIENT_ID,
@@ -25,9 +27,12 @@ export const getCognitoAuthOptions = (p: {
     ],
     secret: p.NEXTAUTH_SECRET,
     callbacks: {
-      async session({ session: sRaw, token: tRaw }) {
-        const session = sRaw as ISession;
-        const token = tRaw as IJWT;
+      async session(sRaw) {
+        const { session, token } = JSON.parse(JSON.stringify(sRaw)) as {
+          session: ISession;
+          user: User;
+          token: IJWT;
+        };
 
         session.accessToken = token.accessToken;
         session.idToken = token.idToken;
@@ -35,10 +40,20 @@ export const getCognitoAuthOptions = (p: {
         if (session?.user?.image && typeof session.user.image === 'string') {
           session.user.image = JSON.parse(session.user.image)?.data?.url;
         }
+        if (p.debug) {
+          info('session=', sRaw, session);
+        }
         return session;
       },
-      async jwt({ token: tRaw, user, account }) {
-        const token = tRaw as IJWT;
+      async jwt(jRaw) {
+        const { token, user, account } = JSON.parse(JSON.stringify(jRaw)) as {
+          token: IJWT;
+          user?: User | undefined;
+          account?: Account | null | undefined;
+          profile?: Profile | undefined;
+          isNewUser?: boolean | undefined;
+        };
+
         if (user) {
           token.id = user.id;
         }
@@ -61,10 +76,14 @@ export const getCognitoAuthOptions = (p: {
         });
         warn('refreshed token');
 
-        return {
+        const ret = {
           ...token,
           ...newv,
         };
+        if (p.debug) {
+          info('jwt=', jRaw, ret);
+        }
+        return ret;
       },
     },
   });
