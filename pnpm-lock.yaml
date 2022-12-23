@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@types/react': '>=18'
-      ag-common: '>=0.0.390'
+      ag-common: '>=0.0.395'
       cross-env: 7.0.3
       eslint-config-e7npm: 0.0.8
       eslint-import-resolver-typescript: '>=3'
