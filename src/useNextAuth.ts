@@ -1,6 +1,6 @@
 import { warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, SignInOptions, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 import { ISession } from './types';
@@ -45,7 +45,7 @@ export const useNextAuth = (p: {
     };
   }
   return {
-    login: () => signIn('cognito'),
+    login: (opt?: SignInOptions) => signIn('cognito', opt),
     logout: async () => {
       const logoutUrl = new URL(p.COGNITO_BASE + '/logout');
       logoutUrl.searchParams.append('client_id', p.COGNITO_CLIENT_ID);
