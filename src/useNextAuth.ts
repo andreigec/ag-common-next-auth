@@ -1,6 +1,6 @@
 import { warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
-import { signIn, SignInOptions, useSession } from 'next-auth/react';
+import { signIn, SignInOptions, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 import { ISession } from './types';
@@ -50,7 +50,7 @@ export const useNextAuth = (p: {
       const logoutUrl = new URL(p.COGNITO_BASE + '/logout');
       logoutUrl.searchParams.append('client_id', p.COGNITO_CLIENT_ID);
       logoutUrl.searchParams.append('logout_uri', window.location.origin);
-
+      await signOut({ redirect: false });
       window.location.href = logoutUrl.href;
     },
     isAuthenticated,
