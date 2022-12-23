@@ -45,7 +45,7 @@ export const useNextAuth = (p: {
     };
   }
   return {
-    login: signIn('cognito'),
+    login: () => signIn('cognito'),
     logout: async () => {
       const logoutUrl = new URL(p.COGNITO_BASE + '/logout');
       logoutUrl.searchParams.append('client_id', p.COGNITO_CLIENT_ID);
