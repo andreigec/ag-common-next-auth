@@ -1,17 +1,27 @@
 import { warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 import { ISession } from './types';
 
 export const useNextAuth = (p: {
   COGNITO_BASE: string;
   COGNITO_CLIENT_ID: string;
+  /** if supplied, will set isAdmin to true if email matches */
+  adminEmails?: string[];
 }) => {
-  const us = useSession();
+  const { status, data } = useSession();
+  const session = data as ISession;
 
-  const { status } = us;
-  const session = us.data as ISession;
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((session as any)?.error === 'RefreshAccessTokenError') {
+      warn('session expired, try relogin');
+      void signIn('cognito'); // Force sign in to hopefully resolve error
+    }
+  }, [session]);
+  //
   let isAuthenticated = status === 'authenticated' && session.idToken;
   const authLoading =
     status === 'loading' || (status === 'authenticated' && !session?.idToken);
@@ -29,9 +39,7 @@ export const useNextAuth = (p: {
       picture: su.image || '',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       idJwt: undefined as any,
-      isAdmin:
-        su.email === 'andreigec@hotmail.com' ||
-        su.email === 'andreigec@gmail.com',
+      isAdmin: p.adminEmails?.includes(su.email) ?? false,
       updatedAt: 0,
       nickname: '',
     };
