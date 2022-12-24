@@ -1,5 +1,5 @@
-import { info, warn } from 'ag-common/dist/common/helpers/log';
-import NextAuth, { Account, Profile, User } from 'next-auth';
+import { warn } from 'ag-common/dist/common/helpers/log';
+import NextAuth, { Account, Profile } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
@@ -14,6 +14,8 @@ export const getCognitoAuthOptions = (p: {
   COGNITO_BASE: string;
   /** if true, will debug details. default false */
   debug?: boolean;
+  /** if supplied, will set isAdmin to true if email matches */
+  adminEmails?: string[];
 }) =>
   NextAuth({
     debug: p.debug,
@@ -28,35 +30,40 @@ export const getCognitoAuthOptions = (p: {
     secret: p.NEXTAUTH_SECRET,
     callbacks: {
       async session(sRaw) {
-        const { session, token } = JSON.parse(JSON.stringify(sRaw)) as {
-          session: ISession;
-          user: User;
-          token: IJWT;
+        const token = sRaw.token as IJWT;
+
+        const session: ISession = {
+          user: token.user ?? sRaw.user,
+          expires: sRaw.session.expires,
+          token: {
+            accessToken: token.accessToken,
+            idToken: token.idToken,
+            refreshToken: token.refreshToken,
+          },
         };
 
-        session.accessToken = token.accessToken;
-        session.idToken = token.idToken;
-        session.refreshToken = token.refreshToken;
-        if (session?.user?.image && typeof session.user.image === 'string') {
-          session.user.image = JSON.parse(session.user.image)?.data?.url;
-        }
-        if (p.debug) {
-          info('session=', sRaw, session);
-        }
         return session;
       },
       async jwt(jRaw) {
-        const { token, user, account } = JSON.parse(JSON.stringify(jRaw)) as {
+        const { token, account } = JSON.parse(JSON.stringify(jRaw)) as {
           token: IJWT;
-          user?: User | undefined;
-          account?: Account | null | undefined;
-          profile?: Profile | undefined;
-          isNewUser?: boolean | undefined;
+          account?: Account;
+          profile?: Profile;
+          isNewUser?: boolean;
+        };
+        let image: string | undefined;
+        if (token?.picture && typeof token.picture === 'string') {
+          image = JSON.parse(token.picture)?.data?.url;
+        }
+
+        token.user = {
+          id: token.email ?? token.name ?? '',
+          isAdmin:
+            (!!token.email && p.adminEmails?.includes(token.email)) ?? false,
+          email: token.email ?? '',
+          image,
         };
 
-        if (user) {
-          token.id = user.id;
-        }
         if (account) {
           token.accessToken = account.access_token;
           token.idToken = account.id_token;
@@ -80,9 +87,7 @@ export const getCognitoAuthOptions = (p: {
           ...token,
           ...newv,
         };
-        if (p.debug) {
-          info('jwt=', jRaw, ret);
-        }
+
         return ret;
       },
     },
