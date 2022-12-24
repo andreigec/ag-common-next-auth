@@ -1,4 +1,5 @@
 import { warn } from 'ag-common/dist/common/helpers/log';
+import { isJson } from 'ag-common/dist/common/helpers/object';
 import NextAuth, { Account, Profile } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
@@ -52,7 +53,9 @@ export const getCognitoAuthOptions = (p: {
           isNewUser?: boolean;
         };
         let image: string | undefined;
-        if (token?.picture && typeof token.picture === 'string') {
+        if (token?.picture?.startsWith('http')) {
+          image = token.picture;
+        } else if (token?.picture && isJson(token.picture)) {
           image = JSON.parse(token.picture)?.data?.url;
         }
 
