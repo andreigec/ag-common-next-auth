@@ -20,3 +20,9 @@ Please raise any issues or requests you might have [here](https://github.com/and
 
 [npm-image]: https://img.shields.io/npm/v/ag-common-next-auth.svg
 [npm-url]: https://www.npmjs.com/package/ag-common-next-auth
+
+## Common Errors
+
+### OAuthCallback
+
+Make sure COGNITO_CLIENT_SECRET and NEXTAUTH_SECRET are set in vercel/hosting
