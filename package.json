@@ -8,14 +8,13 @@
   "license": "ISC",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "format": "npx eslint --ext .ts,.tsx ./src --fix && npx eslint --ext .ts,.tsx ./story --fix",
+    "format": "npx eslint --ext .ts,.tsx ./src --fix",
     "build": "rimraf dist && npm run lint && tsc",
-    "lint": "npx eslint --ext .ts,.tsx ./src",
-    "start": "cross-env BROWSER=none start-storybook -p 6006"
+    "lint": "npx eslint --ext .ts,.tsx ./src"
   },
   "dependencies": {
     "@types/react": ">=18",
-    "ag-common": ">=0.0.396",
+    "ag-common": ">=0.0.400",
     "eslint-import-resolver-typescript": ">=3",
     "eslint-plugin-simple-import-sort": ">=8",
     "next-auth": ">=4",

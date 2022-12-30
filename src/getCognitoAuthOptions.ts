@@ -1,4 +1,4 @@
-import { warn } from 'ag-common/dist/common/helpers/log';
+import { debug, error, warn } from 'ag-common/dist/common/helpers/log';
 import { isJson } from 'ag-common/dist/common/helpers/object';
 import NextAuth, { Account, Profile } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
@@ -31,6 +31,7 @@ export const getCognitoAuthOptions = (p: {
     secret: p.NEXTAUTH_SECRET,
     callbacks: {
       async session(sRaw) {
+        debug('start session', sRaw);
         const token = sRaw.token as IJWT;
 
         const session: ISession = {
@@ -43,55 +44,64 @@ export const getCognitoAuthOptions = (p: {
           },
         };
 
+        debug('end session ' + session);
         return session;
       },
       async jwt(jRaw) {
-        const { token, account } = JSON.parse(JSON.stringify(jRaw)) as {
-          token: IJWT;
-          account?: Account;
-          profile?: Profile;
-          isNewUser?: boolean;
-        };
-        let image: string | undefined;
-        if (token?.picture?.startsWith('http')) {
-          image = token.picture;
-        } else if (token?.picture && isJson(token.picture)) {
-          image = JSON.parse(token.picture)?.data?.url;
-        }
+        try {
+          // eslint-disable-next-line prefer-const
+          let { token, account } = JSON.parse(JSON.stringify(jRaw)) as {
+            token: IJWT;
+            account?: Account;
+            profile?: Profile;
+            isNewUser?: boolean;
+          };
+          debug('start jwt ', jRaw);
+          let image: string | undefined;
+          if (token?.picture?.startsWith('http')) {
+            image = token.picture;
+          } else if (token?.picture && isJson(token.picture)) {
+            image = JSON.parse(token.picture)?.data?.url;
+          }
 
-        token.user = {
-          id: token.email ?? token.name ?? '',
-          isAdmin:
-            (!!token.email && p.adminEmails?.includes(token.email)) ?? false,
-          email: token.email ?? '',
-          image,
-        };
+          token.user = {
+            id: token.email ?? token.name ?? '',
+            isAdmin:
+              (!!token.email && p.adminEmails?.includes(token.email)) ?? false,
+            email: token.email ?? '',
+            image,
+          };
 
-        if (account) {
-          token.accessToken = account.access_token;
-          token.idToken = account.id_token;
-          token.refreshToken = account.refresh_token;
-        }
-        const exp = Number((account?.expires_at || token?.exp) + '000');
-        if (Date.now() < exp) {
+          if (account) {
+            token.accessToken = account.access_token;
+            token.idToken = account.id_token;
+            token.refreshToken = account.refresh_token;
+          }
+          const exp = Number((account?.expires_at || token?.exp) + '000');
+          if (Date.now() >= exp) {
+            warn(
+              'will refresh token, expired at ',
+              new Date(exp).toUTCString(),
+            );
+            const newv = await refreshCognitoAccessToken({
+              refresh_token: account?.refresh_token,
+              clientSecret: p.COGNITO_CLIENT_SECRET,
+              COGNITO_BASE: p.COGNITO_BASE,
+              COGNITO_CLIENT_ID: p.COGNITO_CLIENT_ID,
+            });
+            warn('refreshed token');
+            token = {
+              ...token,
+              ...newv,
+            };
+          }
+
+          debug('end jwt ' + token);
           return token;
+        } catch (e) {
+          error('jwt error=', e);
+          throw e;
         }
-
-        warn('will refresh token, expired at ', new Date(exp).toUTCString());
-        const newv = await refreshCognitoAccessToken({
-          refresh_token: account?.refresh_token,
-          clientSecret: p.COGNITO_CLIENT_SECRET,
-          COGNITO_BASE: p.COGNITO_BASE,
-          COGNITO_CLIENT_ID: p.COGNITO_CLIENT_ID,
-        });
-        warn('refreshed token');
-
-        const ret = {
-          ...token,
-          ...newv,
-        };
-
-        return ret;
       },
     },
   });

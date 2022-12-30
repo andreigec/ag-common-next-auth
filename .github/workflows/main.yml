@@ -8,8 +8,6 @@ on:
     paths:
       - 'package.json'
       - 'src/**'
-      - '!src/story'
-      - '!src/story/**'
       - '.github/workflows/main.yml'
 
 jobs:
