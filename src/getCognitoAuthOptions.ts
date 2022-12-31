@@ -14,7 +14,7 @@ export const getCognitoAuthOptions = (p: {
   NEXTAUTH_SECRET: string;
   COGNITO_ISSUER: string;
   COGNITO_BASE: string;
-  /** if true, will debug details. default false */
+  /** if true, will debug next-auth details. default false */
   debug?: boolean;
   /** if supplied, will set isAdmin to true if email matches */
   adminEmails?: string[];
