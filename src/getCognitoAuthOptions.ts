@@ -54,7 +54,7 @@ export const getCognitoAuthOptions = (p: {
           token,
         };
 
-        debug('end session. has user picture?' + !!session.user.image);
+        debug('end session. has user picture? ' + !!session.user.image);
         return session;
       },
       async jwt(jRaw) {

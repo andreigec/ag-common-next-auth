@@ -1,4 +1,4 @@
-import { info, warn } from 'ag-common/dist/common/helpers/log';
+import { debug, warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
 import {
   signIn,
@@ -19,27 +19,29 @@ export const useNextAuth = (p: {
   useSessionOpt?: UseSessionOptions<boolean>;
   signoutOpt?: SignOutParams<boolean>;
   signinOpt?: SignInOptions;
-  /** if true, will debug details. default false */
-  debug?: boolean;
 }) => {
   const raw = useSession(p.useSessionOpt);
   const session = raw.data as ISession;
-  if (p.debug) {
-    info('use session=', raw);
-  }
+  debug('use session=', raw);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((session as any)?.error === 'RefreshAccessTokenError') {
-      warn('session expired, try relogin');
-      void signIn('cognito'); // Force sign in to hopefully resolve error
+    const se = (session as any)?.error;
+    if (se) {
+      if (se === 'RefreshAccessTokenError') {
+        warn('session expired, try relogin');
+        void signIn('cognito', p.signinOpt); // Force sign in to hopefully resolve error
+      } else {
+        warn('unhandled session error:' + se);
+      }
     }
-  }, [session]);
+  }, [p.signinOpt, session]);
   //
-  let isAuthenticated = status === 'authenticated' && !!session?.token?.idToken;
+  let isAuthenticated =
+    raw.status === 'authenticated' && !!session?.token?.idToken;
   const authLoading =
-    status === 'loading' ||
-    (status === 'authenticated' && !session?.token?.idToken);
+    raw.status === 'loading' ||
+    (raw.status === 'authenticated' && !session?.token?.idToken);
 
   let user: User | undefined;
   const su = session?.user;
@@ -60,6 +62,8 @@ export const useNextAuth = (p: {
       nickname: su.name || '',
     };
   }
+  debug('session user=', user);
+
   return {
     login: () => signIn('cognito', p.signinOpt),
     logout: async () => {
