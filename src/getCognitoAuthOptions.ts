@@ -33,7 +33,10 @@ export const getCognitoAuthOptions = (p: {
     callbacks: {
       async session(sRaw) {
         const token = sRaw.token as IJWT;
-        debug('start session. exp seconds=' + sRaw.session.expires);
+        debug(
+          'start session. exp=' +
+            dateDiff(new Date(), new Date(sRaw.session.expires)).totalMinutes,
+        );
 
         const session: ISession = {
           user: token.user ?? sRaw.user,
@@ -41,7 +44,7 @@ export const getCognitoAuthOptions = (p: {
           token,
         };
 
-        debug('end session');
+        debug('end session. has user picture?' + !!session.user.image);
         return session;
       },
       async jwt(jRaw) {
