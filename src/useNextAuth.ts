@@ -22,7 +22,6 @@ export const useNextAuth = (p: {
 }) => {
   const raw = useSession(p.useSessionOpt);
   const session = raw.data as ISession;
-  debug('use session=', raw);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,7 +61,7 @@ export const useNextAuth = (p: {
       nickname: su.name || '',
     };
   }
-  debug('session user=', user);
+  debug(`session user. isauth?=${isAuthenticated} email=${su?.email}`);
 
   return {
     login: () => signIn('cognito', p.signinOpt),
