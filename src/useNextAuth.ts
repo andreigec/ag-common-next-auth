@@ -22,10 +22,10 @@ export const useNextAuth = (p: {
   /** if true, will debug details. default false */
   debug?: boolean;
 }) => {
-  const { status, data } = useSession(p.useSessionOpt);
-  const session = data as ISession;
+  const raw = useSession(p.useSessionOpt);
+  const session = raw.data as ISession;
   if (p.debug) {
-    info('use session=', status, session);
+    info('use session=', raw);
   }
 
   useEffect(() => {
