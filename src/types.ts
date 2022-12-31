@@ -4,17 +4,19 @@ import { JWT } from 'next-auth/jwt';
 export interface ISession {
   expires: string;
   token: {
-    idToken?: string;
-    accessToken?: string;
-    refreshToken?: string;
+    idToken: string;
+    accessToken: string;
+    refreshToken: string;
+    accessTokenExpires: number;
   };
 
   user: IUser;
 }
 export interface IJWT extends JWT {
-  accessToken?: string;
-  idToken?: string;
-  refreshToken?: string;
+  accessToken: string;
+  idToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
   name?: string;
   email?: string;
   picture?: string;
