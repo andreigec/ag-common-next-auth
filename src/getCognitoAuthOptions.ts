@@ -67,11 +67,10 @@ export const getCognitoAuthOptions = (p: {
             isNewUser?: boolean;
           };
           const expiry =
-            token.accessTokenExpires || Number(account?.expires_at + '000');
-          debug(
-            'start jwt. exp mins=' +
-              dateDiff(new Date(), new Date(expiry)).totalMinutes,
-          );
+            token.accessTokenExpires ||
+            Number((account?.expires_at ?? 0) + '000');
+          const expmins = dateDiff(new Date(), new Date(expiry)).totalMinutes;
+          debug('start jwt. exp mins=' + expmins);
           let image: string | undefined;
           if (token?.picture?.startsWith('http')) {
             image = token.picture;
@@ -97,10 +96,10 @@ export const getCognitoAuthOptions = (p: {
             },
           };
 
-          if (Date.now() >= expiry) {
+          if (expmins <= 5) {
             warn('will refresh token');
             const newv = await refreshCognitoAccessToken({
-              refresh_token: account?.refresh_token,
+              refresh_token: token?.refreshToken,
               clientSecret: p.COGNITO_CLIENT_SECRET,
               COGNITO_BASE: p.COGNITO_BASE,
               COGNITO_CLIENT_ID: p.COGNITO_CLIENT_ID,
