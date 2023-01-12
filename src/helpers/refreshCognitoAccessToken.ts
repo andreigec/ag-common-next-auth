@@ -48,5 +48,6 @@ export const refreshCognitoAccessToken = async (p: {
       ? Date.now() + res?.expires_in * 1000
       : 0,
     refreshToken: res?.refresh_token ?? p.refresh_token, // Fall back to old refresh token
+    idToken: res?.id_token,
   };
 };
