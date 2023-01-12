@@ -47,7 +47,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
     } catch (e) {
       warn('error refreshing session');
     }
-  }, (p.refetchInterval ?? 600) * 1000);
+  }, 4000);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
