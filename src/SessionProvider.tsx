@@ -1,27 +1,53 @@
 import { debug, warn } from 'ag-common/dist/common/helpers/log';
 import { User } from 'ag-common/dist/ui/helpers/jwt';
+import { useInterval } from 'ag-common/dist/ui/helpers/useInterval';
 import {
+  SessionProvider as SP,
+  SessionProviderProps,
   signIn,
   SignInOptions,
+  SignInResponse,
   signOut,
   SignOutParams,
   useSession,
   UseSessionOptions,
 } from 'next-auth/react';
-import { useEffect } from 'react';
+import React, { createContext, useEffect } from 'react';
 
 import { ISession } from './types';
 
-export const useNextAuth = (p: {
+export type ISessionProviderProps = SessionProviderProps & {
   COGNITO_BASE: string;
   COGNITO_CLIENT_ID: string;
 
   useSessionOpt?: UseSessionOptions<boolean>;
   signoutOpt?: SignOutParams<boolean>;
   signinOpt?: SignInOptions;
-}) => {
+};
+export interface ISessionProvider {
+  login: () => Promise<SignInResponse | undefined>;
+  logout: () => Promise<void>;
+  isAuthenticated: boolean;
+  authLoading: boolean;
+  user: User | undefined;
+  session: ISession;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const SessionContext = createContext<ISessionProvider>({} as any);
+
+const WithSessionProvider = (p: ISessionProviderProps) => {
   const raw = useSession(p.useSessionOpt);
   const session = raw.data as ISession;
+
+  useInterval(() => {
+    try {
+      //refresh the session + jwt
+      document.dispatchEvent(new Event('visibilitychange'));
+    } catch (e) {
+      warn('error refreshing session');
+    }
+  }, (p.refetchInterval ?? 600) * 1000);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,7 +89,7 @@ export const useNextAuth = (p: {
   }
   debug(`session user. isauth?=${isAuthenticated} email=${su?.email}`);
 
-  return {
+  const state: ISessionProvider = {
     login: () => signIn('cognito', p.signinOpt),
     logout: async () => {
       const logoutUrl = new URL(p.COGNITO_BASE + '/logout');
@@ -77,4 +103,21 @@ export const useNextAuth = (p: {
     user,
     session,
   };
+
+  return (
+    <SessionContext.Provider value={state}>
+      {p.children}
+    </SessionContext.Provider>
+  );
+};
+
+/** SessionProvider that periodically user refreshes.
+ * refetchInterval default 10m
+ */
+export const SessionProvider = (props: ISessionProviderProps) => {
+  return (
+    <SP {...props}>
+      <WithSessionProvider {...props} />
+    </SP>
+  );
 };

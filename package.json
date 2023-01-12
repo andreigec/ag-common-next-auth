@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@types/react": ">=18",
-    "ag-common": ">=0.0.400",
+    "ag-common": ">=0.0.402",
     "eslint-import-resolver-typescript": ">=3",
     "eslint-plugin-simple-import-sort": ">=8",
     "next-auth": ">=4",

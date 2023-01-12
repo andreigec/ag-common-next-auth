@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@types/react': '>=18'
-      ag-common: '>=0.0.400'
+      ag-common: '>=0.0.402'
       cross-env: 7.0.3
       eslint-config-e7npm: 0.0.8
       eslint-import-resolver-typescript: '>=3'
@@ -16,7 +16,7 @@ importers:
       typescript: '>=4'
     dependencies:
       '@types/react': 18.0.26
-      ag-common: 0.0.400
+      ag-common: 0.0.402
       eslint-import-resolver-typescript: 3.5.2
       eslint-plugin-simple-import-sort: 8.0.0
       next-auth: 4.18.7_react@18.2.0
@@ -359,8 +359,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ag-common/0.0.400:
-    resolution: {integrity: sha512-8ph2CQyfk4WDPYpzcB/40TlZjCYRGU52N4fjJZlFuayfNwzbKEpv5ZlQNOkDSyIEvr7vCntW8EhWAmbee80FLw==}
+  /ag-common/0.0.402:
+    resolution: {integrity: sha512-bKyrhglYLY2P+voQlfJcPLZGIGlpYO9iX6X+EzHBJpSgRoVQxiOuivbu1GL/bjBqxiZv6J2Bnw1NOwxdmThiHA==}
     requiresBuild: true
     peerDependencies:
       '@emotion/react': '>11'
