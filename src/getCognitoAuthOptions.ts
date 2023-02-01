@@ -18,18 +18,15 @@ export const getCognitoAuthOptions = (p: {
   debug?: boolean;
   /** if supplied, will set isAdmin to true if email matches */
   adminEmails?: string[];
-  /** duration of session in seconds. default 3600s */
-  maxAge?: number;
 }) => {
-  const { maxAge = 3600 } = p;
   return NextAuth({
     debug: p.debug,
     session: {
-      maxAge,
-      updateAge: maxAge / 3,
+      //maxAge, //default 30d
+      updateAge: 600, //10m. default 1d
     },
     jwt: {
-      maxAge,
+      //maxAge, //default 30d
     },
     providers: [
       CognitoProvider({

@@ -42,6 +42,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
 
   useInterval(() => {
     try {
+      debug('triggering visibilitychange for jwt/session refresh');
       //refresh the session + jwt
       document.dispatchEvent(new Event('visibilitychange'));
     } catch (e) {
