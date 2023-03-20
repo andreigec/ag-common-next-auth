@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "cross-env": "7.0.3",
-    "eslint-config-e7npm": "0.0.8",
+    "eslint-config-e7npm": "0.0.9",
     "rimraf": "4.4.0"
   },
   "files": [
