@@ -1,6 +1,6 @@
 {
   "name": "ag-common-next-auth",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Andrei Gec <@andreigec> (https://gec.dev/)",
@@ -12,7 +12,7 @@
     "build": "rimraf dist && npm run lint && tsc",
     "lint": "npx eslint --ext .ts,.tsx ./src"
   },
-  "dependencies": {    
+  "dependencies": {
     "ag-common": ">=0.0.426",
     "next-auth": ">=4.2.0",
     "react": ">=18",
