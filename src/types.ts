@@ -1,27 +1,20 @@
-import { User } from 'next-auth/core/types';
+import { DefaultSession, User } from 'next-auth/core/types';
 import { JWT } from 'next-auth/jwt';
 
-export interface ISession {
-  expires: string;
+export interface ISession extends DefaultSession {
   token: {
     idToken: string;
     accessToken: string;
     refreshToken: string;
-    accessTokenExpires: number;
   };
 
   user: IUser;
 }
 export interface IJWT extends JWT {
+  user: IUser;
   accessToken: string;
   idToken: string;
   refreshToken: string;
-  accessTokenExpires: number;
-  name?: string;
-  email?: string;
-  picture?: string;
-  /** derived object */
-  user: IUser;
 }
 export interface IUser extends User {
   isAdmin: boolean;

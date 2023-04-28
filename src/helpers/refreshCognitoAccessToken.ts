@@ -14,11 +14,11 @@ export const refreshCognitoAccessToken = async (p: {
 }) => {
   if (!p.refresh_token) {
     warn('no refresh token');
-    return undefined;
+    return {};
   }
   if (!p.clientSecret) {
     warn('no cog secret');
-    return undefined;
+    return {};
   }
   const opt = {
     method: 'POST',
@@ -43,11 +43,11 @@ export const refreshCognitoAccessToken = async (p: {
     refresh_token: string;
   };
   return {
-    accessToken: res?.access_token,
-    accessTokenExpires: res?.expires_in
-      ? Date.now() + res?.expires_in * 1000
-      : 0,
-    refreshToken: res?.refresh_token ?? p.refresh_token, // Fall back to old refresh token
-    idToken: res?.id_token,
+    expires_in: res.expires_in,
+    tokens: {
+      accessToken: res?.access_token,
+      refreshToken: res?.refresh_token ?? p.refresh_token, // Fall back to old refresh token
+      idToken: res?.id_token,
+    },
   };
 };

@@ -4,6 +4,7 @@ import { isJson } from 'ag-common/dist/common/helpers/object';
 import NextAuth, { Account, Profile } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
+import { getExpMins, parseJwt } from './helpers/parse';
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
 import { IJWT, ISession } from './types';
 
@@ -33,7 +34,12 @@ export const getCognitoAuthOptions = (p: {
         clientId: p.COGNITO_CLIENT_ID,
         clientSecret: p.COGNITO_CLIENT_SECRET || '',
         issuer: p.COGNITO_ISSUER,
-        checks: ['nonce', 'state'],
+
+        checks: [
+          //@ts-ignore - fix cognito bug
+          'nonce',
+          'state',
+        ],
       }),
     ],
     secret: p.NEXTAUTH_SECRET,
@@ -63,11 +69,7 @@ export const getCognitoAuthOptions = (p: {
             profile?: Profile;
             isNewUser?: boolean;
           };
-          const expiry =
-            token.accessTokenExpires ||
-            Number((account?.expires_at ?? 0) + '000');
-          const expmins = dateDiff(new Date(), new Date(expiry)).totalMinutes;
-          debug('start jwt. exp mins=' + expmins);
+
           let image: string | undefined;
           if (token?.picture?.startsWith('http')) {
             image = token.picture;
@@ -82,7 +84,6 @@ export const getCognitoAuthOptions = (p: {
             ...(account?.refresh_token && {
               refreshToken: account.refresh_token,
             }),
-            accessTokenExpires: expiry,
             user: {
               id: token.email ?? token.name ?? '',
               isAdmin:
@@ -93,9 +94,12 @@ export const getCognitoAuthOptions = (p: {
             },
           };
 
-          if (expmins <= 5) {
+          let tokenexpmins = getExpMins(token);
+          debug('start jwt. exp mins', tokenexpmins);
+
+          if (!tokenexpmins || tokenexpmins <= 5) {
             warn('will refresh token');
-            const newv = await refreshCognitoAccessToken({
+            const { tokens } = await refreshCognitoAccessToken({
               refresh_token: token?.refreshToken,
               clientSecret: p.COGNITO_CLIENT_SECRET,
               COGNITO_BASE: p.COGNITO_BASE,
@@ -103,14 +107,13 @@ export const getCognitoAuthOptions = (p: {
             });
             token = {
               ...token,
-              ...newv,
+              ...tokens,
             };
           }
-          debug(
-            'end jwt. exp mins=' +
-              dateDiff(new Date(), new Date(token.accessTokenExpires))
-                .totalMinutes,
-          );
+
+          tokenexpmins = getExpMins(token);
+          debug('end jwt. exp mins=', tokenexpmins);
+
           return token;
         } catch (e) {
           error('jwt error=', e);
