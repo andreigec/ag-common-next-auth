@@ -21,7 +21,7 @@ jobs:
       name: Install pnpm
       id: pnpm-install
       with:
-        version: 7
+        version: 8
         run_install: false
 
     - name: Get pnpm store directory
@@ -44,3 +44,9 @@ jobs:
     - name: lint
       run: |
         pnpm run lint
+
+    - name: notify analytica of build
+      uses: andreigecanalytica/analytica.click.gh@1
+      with:
+        analyticaToken: '${{ secrets.ANALYTICATOKEN }}'
+        eventName: '${{ github.repository }}/GH/${{ github.job }}/${{ github.event_name }}'
