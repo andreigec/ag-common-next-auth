@@ -4,7 +4,7 @@ import { isJson } from 'ag-common/dist/common/helpers/object';
 import NextAuth, { Account, Profile } from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
-import { getExpMins, parseJwt } from './helpers/parse';
+import { getExpMins } from './helpers/parse';
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
 import { IJWT, ISession } from './types';
 
