@@ -1,7 +1,7 @@
 import { dateDiff } from 'ag-common/dist/common/helpers/date';
 import { fromBase64 } from 'ag-common/dist/common/helpers/string/base64';
 
-import { IJWT } from '../types';
+import type { IJWT } from '../types';
 
 export function parseJwt(token: string) {
   const base64Url = token.split('.')[1];

@@ -1,12 +1,13 @@
 import { dateDiff } from 'ag-common/dist/common/helpers/date';
 import { debug, error, warn } from 'ag-common/dist/common/helpers/log';
 import { isJson } from 'ag-common/dist/common/helpers/object';
-import NextAuth, { Account, Profile } from 'next-auth';
+import type { Account, Profile } from 'next-auth';
+import NextAuth from 'next-auth';
 import CognitoProvider from 'next-auth/providers/cognito';
 
 import { getExpMins } from './helpers/parse';
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
-import { IJWT, ISession } from './types';
+import type { IJWT, ISession } from './types';
 
 export const getCognitoAuthOptions = (p: {
   COGNITO_CLIENT_ID: string;

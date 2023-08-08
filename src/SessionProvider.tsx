@@ -1,20 +1,22 @@
 import { debug, warn } from 'ag-common/dist/common/helpers/log';
-import { User } from 'ag-common/dist/ui/helpers/jwt';
+import type { User } from 'ag-common/dist/ui/helpers/jwt';
 import { useInterval } from 'ag-common/dist/ui/helpers/useInterval';
-import {
-  SessionProvider as SP,
+import type {
   SessionProviderProps,
-  signIn,
   SignInOptions,
   SignInResponse,
-  signOut,
   SignOutParams,
-  useSession,
   UseSessionOptions,
+} from 'next-auth/react';
+import {
+  SessionProvider as SP,
+  signIn,
+  signOut,
+  useSession,
 } from 'next-auth/react';
 import React, { createContext, useEffect } from 'react';
 
-import { ISession } from './types';
+import type { ISession } from './types';
 
 export type ISessionProviderProps = SessionProviderProps & {
   COGNITO_BASE: string;
