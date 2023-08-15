@@ -1,5 +1,5 @@
 import type { DefaultSession, User } from 'next-auth/core/types';
-import type { JWT } from 'next-auth/jwt';
+import type { JWT } from 'next-auth/jwt/types';
 
 export interface ISession extends DefaultSession {
   token: {

@@ -1,19 +1,19 @@
 import { debug, warn } from 'ag-common/dist/common/helpers/log';
 import type { User } from 'ag-common/dist/ui/helpers/jwt';
 import { useInterval } from 'ag-common/dist/ui/helpers/useInterval';
-import type {
-  SessionProviderProps,
-  SignInOptions,
-  SignInResponse,
-  SignOutParams,
-  UseSessionOptions,
-} from 'next-auth/react';
 import {
   SessionProvider as SP,
   signIn,
   signOut,
   useSession,
 } from 'next-auth/react';
+import type {
+  SessionProviderProps,
+  SignInOptions,
+  SignInResponse,
+  SignOutParams,
+  UseSessionOptions,
+} from 'next-auth/react/types';
 import React, { createContext, useEffect } from 'react';
 
 import type { ISession } from './types';
