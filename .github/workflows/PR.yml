@@ -41,9 +41,9 @@ jobs:
     - name: Install dependencies
       run: pnpm install
 
-    - name: lint
+    - name: test
       run: |
-        pnpm run lint
+        pnpm run test
 
     - name: notify analytica of build
       if: always()

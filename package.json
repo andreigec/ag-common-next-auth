@@ -9,12 +9,13 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "format": "npx eslint --ext .ts,.tsx ./src --fix",
-    "build": "rimraf dist && npm run lint && tsc",
-    "lint": "npx eslint --ext .ts,.tsx ./src"
+    "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
+    "lint": "npx eslint --ext .ts,.tsx ./src",
+    "test":"npm run build && ts-node src/exported.test.ts"
   },
   "dependencies": {
     "ag-common": ">=0.0.473",
-    "next-auth": ">=4.23.0",
+    "next-auth": ">=4.22.4",
     "react": ">=18",
     "typescript": ">=5"
   },
