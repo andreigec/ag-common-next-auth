@@ -15,13 +15,13 @@
   },
   "dependencies": {
     "ag-common": ">=0.0.473",
-    "next-auth": "4.22.4",
+    "next-auth": "4.23.1",
     "react": ">=18",
     "typescript": ">=5"
   },
   "devDependencies": {
     "@types/next-auth": "3.15.0",
-    "eslint-config-e7npm": "0.0.21",
+    "eslint-config-e7npm": "0.0.26",
     "rimraf": "5.0.1",
     "@types/react": "18.2.20"
   },
