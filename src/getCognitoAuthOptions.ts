@@ -5,9 +5,10 @@ import type { Account, Profile } from 'next-auth/core/types';
 import NextAuth from 'next-auth/next';
 import CognitoProvider from 'next-auth/providers/cognito';
 
+import { jwtToSession } from './helpers/getSsrJwt';
 import { getExpMins } from './helpers/parse';
 import { refreshCognitoAccessToken } from './helpers/refreshCognitoAccessToken';
-import type { IJWT, ISession } from './types';
+import type { IJWT } from './types';
 
 export const getCognitoAuthOptions = (p: {
   COGNITO_CLIENT_ID: string;
@@ -20,8 +21,8 @@ export const getCognitoAuthOptions = (p: {
   debug?: boolean;
   /** if supplied, will set isAdmin to true if email matches */
   adminEmails?: string[];
-}) => {
-  return NextAuth({
+}) =>
+  NextAuth({
     debug: p.debug,
     session: {
       //maxAge, //default 30d
@@ -51,14 +52,15 @@ export const getCognitoAuthOptions = (p: {
           'start session. exp=' +
             dateDiff(new Date(), new Date(sRaw.session.expires)).totalMinutes,
         );
+        const session = jwtToSession(
+          { ...token, user: token.user || sRaw.user },
+          sRaw.session.expires,
+        );
 
-        const session: ISession = {
-          user: token.user ?? sRaw.user,
-          expires: sRaw.session.expires,
-          token,
-        };
-
-        debug('end session. has user picture? ' + !!session.user.image);
+        debug(
+          'end session. has user picture? ' + !!session.user.image,
+          JSON.stringify(session, null, 2),
+        );
         return session;
       },
       async jwt(jRaw) {
@@ -84,6 +86,7 @@ export const getCognitoAuthOptions = (p: {
             ...(account?.id_token && { idToken: account.id_token }),
             ...(account?.refresh_token && {
               refreshToken: account.refresh_token,
+              ...(account?.expires_at && { expiresAt: account.expires_at }),
             }),
             user: {
               id: token.email ?? token.name ?? '',
@@ -123,4 +126,3 @@ export const getCognitoAuthOptions = (p: {
       },
     },
   });
-};

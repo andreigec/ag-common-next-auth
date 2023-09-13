@@ -6,6 +6,7 @@ export interface ISession extends DefaultSession {
     idToken: string;
     accessToken: string;
     refreshToken: string;
+    expiresAt: number;
   };
 
   user: IUser;
@@ -15,6 +16,7 @@ export interface IJWT extends JWT {
   accessToken: string;
   idToken: string;
   refreshToken: string;
+  expiresAt: number;
 }
 export interface IUser extends User {
   isAdmin: boolean;
