@@ -1,3 +1,4 @@
+'use client';
 import { debug, warn } from 'ag-common/dist/common/helpers/log';
 import type { User } from 'ag-common/dist/ui/helpers/jwt';
 import { useInterval } from 'ag-common/dist/ui/helpers/useInterval';
