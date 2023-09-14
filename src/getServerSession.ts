@@ -1,7 +1,9 @@
 import { getSsrJwt, jwtToSession } from './helpers/getSsrJwt';
+import type { ISession } from './types';
 
-/** for use with next 13 appdir */
-export const authMiddleware = async ({
+/** get logged in user session
+ * for use with next 13 appdir */
+export const getServerSession = async ({
   cookies,
 }: {
   /** use next/headers/cookies() */
@@ -11,13 +13,12 @@ export const authMiddleware = async ({
       value: string;
     }[];
   };
-}) => {
+}): Promise<ISession | undefined> => {
   const jwt = await getSsrJwt({ allCookies: cookies.getAll() });
 
   if (!jwt?.idToken) {
-    return {};
+    return undefined;
   }
-  const session = jwtToSession(jwt);
 
-  return { session };
+  return jwtToSession(jwt);
 };
