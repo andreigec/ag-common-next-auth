@@ -1,12 +1,10 @@
-import { getSsrJwt, jwtToSession } from './helpers/getSsrJwt';
-import type { ISession } from './types';
+import type { ISession } from '../types';
+import { getSsrJwt, jwtToSession } from './getSsrJwt';
 
-/** get logged in user session
- * for use with next 13 appdir */
+/** get logged in user session */
 export const getServerSession = async ({
   cookies,
 }: {
-  /** use next/headers/cookies() */
   cookies: {
     getAll: () => {
       name: string;
