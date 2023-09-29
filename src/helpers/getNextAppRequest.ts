@@ -17,7 +17,9 @@ export const getNextAppRequest = ({
 
   const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
   const host = headers.get('host') ?? '';
-  const pathname = headers.get('x-invoke-path') ?? '/';
+  const pathname =
+    headers.get('x-invoke-path') ?? headers.get('next-url') ?? '/';
+
   const protocol =
     host.includes(':443') || !host.includes(':') ? 'https:' : 'http:';
 

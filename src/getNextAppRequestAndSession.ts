@@ -18,7 +18,8 @@ export const getNextAppRequestAndSession = async ({
     }[];
   };
 }) => {
-  const pathname = headers.get('x-invoke-path') ?? '/';
+  const pathname =
+    headers.get('x-invoke-path') ?? headers.get('next-url') ?? '/';
 
   const session = await getServerSession({ cookies });
 
