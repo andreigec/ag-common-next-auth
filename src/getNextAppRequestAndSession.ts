@@ -1,4 +1,4 @@
-import { getNextAppRequest } from './helpers/getNextAppRequest';
+import { getNextAppRequest, getPathName } from './helpers/getNextAppRequest';
 import { getServerSession } from './helpers/getServerSession';
 
 /** get request and session details
@@ -18,8 +18,7 @@ export const getNextAppRequestAndSession = async ({
     }[];
   };
 }) => {
-  const pathname =
-    headers.get('x-invoke-path') ?? headers.get('next-url') ?? '/';
+  const pathname = getPathName({ headers });
 
   const session = await getServerSession({ cookies });
 
