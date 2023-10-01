@@ -6,14 +6,7 @@ export const getPathName = ({
   headers,
 }: {
   headers: { get: (s: string) => string | null };
-}) => {
-  const ref = headers.get('referer');
-  let pathname = headers.get('x-invoke-path') ?? headers.get('next-url');
-  if (!pathname && ref) {
-    pathname = new URL(ref).pathname;
-  }
-  return pathname ?? '/';
-};
+}) => headers.get('x-invoke-path') ?? headers.get('next-url') ?? '/';
 
 /** get request details
  * next13 server only */
