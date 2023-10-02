@@ -8,8 +8,8 @@ export const getPathName = ({
   headers: { get: (s: string) => string | null };
 }) =>
   (headers.get('x-invoke-path') ?? headers.get('next-url') ?? '/')
-    //remote hashroute
-    .replace(/#.*/gim, '');
+    //remote hashroute/querystring
+    .replace(/[#?].*/gim, '');
 
 /** get request details
  * next13 server only */
