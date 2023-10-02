@@ -7,6 +7,7 @@ import { getServerSession } from './helpers/getServerSession';
 export const getNextAppRequestAndSession = async ({
   headers,
   cookies,
+  overrides,
 }: {
   /** use next/headers() */
   headers: { get: (s: string) => string | null };
@@ -17,12 +18,15 @@ export const getNextAppRequestAndSession = async ({
       value: string;
     }[];
   };
+  overrides?: {
+    pathname?: string;
+  };
 }) => {
   const pathname = getPathName({ headers });
 
   const session = await getServerSession({ cookies });
 
-  const ar = getNextAppRequest({ headers });
+  const ar = getNextAppRequest({ headers, overrides });
 
   return {
     session,
