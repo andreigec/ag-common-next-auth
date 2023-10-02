@@ -8,7 +8,6 @@ import type { INextRequest, ISession } from './types';
 export const getNextAppRequestAndSession = async ({
   headers,
   cookies,
-  overrides,
 }: {
   /** use next/headers() */
   headers: { get: (s: string) => string | null };
@@ -19,21 +18,10 @@ export const getNextAppRequestAndSession = async ({
       value: string;
     }[];
   };
-  overrides?: {
-    pathname?: string;
-  };
 }): Promise<{
   session?: ISession;
   request: INextRequest;
-  cookieDocument: string;
-}> => {
-  const session = await getServerSession({ cookies });
-
-  const ar = getNextAppRequest({ headers, overrides });
-
-  return {
-    session,
-    request: ar,
-    cookieDocument: ar.cookieDocument || '',
-  };
-};
+}> => ({
+  session: await getServerSession({ cookies }),
+  request: getNextAppRequest({ headers }),
+});

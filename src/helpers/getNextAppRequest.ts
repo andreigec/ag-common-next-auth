@@ -1,10 +1,11 @@
 import type { TLang } from 'ag-common/dist/common/helpers/i18n';
+import { info } from 'ag-common/dist/common/helpers/log';
 import { objectToString } from 'ag-common/dist/common/helpers/object';
 import { stripUrl } from 'ag-common/dist/common/helpers/string';
 import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
 import { getRenderLanguage } from 'ag-common/dist/ui/helpers/routes';
 
-export const getPathName = ({
+const getPathName = ({
   headers,
 }: {
   headers: { get: (s: string) => string | null };
@@ -15,19 +16,36 @@ export const getPathName = ({
     headers.get('x-invoke-path2') ??
     '/'
   )
-    //remote hashroute/querystring
+    //remove hash/querystring
     .replace(/[#?].*/gim, '');
+
+const getQs = ({
+  headers,
+}: {
+  headers: { get: (s: string) => string | null };
+}) => {
+  let query: Record<string, string> = {};
+  const qraw =
+    headers.get('x-invoke-query') ?? headers.get('x-invoke-query2') ?? '{}';
+  try {
+    query = JSON.parse(decodeURIComponent(qraw));
+  } catch (e) {
+    info('bad qs passed=', qraw);
+  }
+  if (Object.keys(query).length === 0) {
+    return { search: '', query: {} };
+  }
+  const search = '?' + objectToString(query, '=', '&');
+
+  return { search, query };
+};
 
 /** get request details
  * next13 server only */
 export const getNextAppRequest = ({
   headers,
-  overrides,
 }: {
   headers: { get: (s: string) => string | null };
-  overrides?: {
-    pathname?: string;
-  };
 }): {
   url: URLLite;
   query: Record<string, string>;
@@ -35,26 +53,18 @@ export const getNextAppRequest = ({
   lang: TLang;
   cookieDocument: string;
 } => {
-  let query: Record<string, string> = {};
-  if (headers.get('x-invoke-query')) {
-    query = JSON.parse(
-      decodeURIComponent(
-        headers.get('x-invoke-query') ?? headers.get('x-invoke-query2') ?? '{}',
-      ),
-    );
-  }
-
   const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
   const host = headers.get('host') ?? '';
-  const pathname = overrides?.pathname ?? getPathName({ headers });
+  const pathname = getPathName({ headers });
 
   const protocol =
     host.includes(':443') || !host.includes(':') ? 'https:' : 'http:';
 
   let url = `${protocol}${host}${pathname}`;
-  if (Object.keys(query).length > 0) {
-    const qs = '?' + objectToString(query, '=', '&');
-    url += qs;
+
+  const { search, query } = getQs({ headers });
+  if (search) {
+    url += search;
   }
 
   const cookieDocument = headers.get('cookie') || '';
