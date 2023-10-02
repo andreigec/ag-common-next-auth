@@ -1,3 +1,5 @@
+import type { TLang } from 'ag-common/dist/common/helpers/i18n';
+import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
 import type { DefaultSession, User } from 'next-auth/core/types';
 import type { JWT } from 'next-auth/jwt/types';
 
@@ -20,4 +22,12 @@ export interface IJWT extends JWT {
 }
 export interface IUser extends User {
   isAdmin: boolean;
+}
+
+export interface INextRequest {
+  url: URLLite;
+  query: Record<string, string>;
+  userAgent: string;
+  lang: TLang;
+  cookieDocument: string | null;
 }

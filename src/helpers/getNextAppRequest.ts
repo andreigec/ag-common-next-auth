@@ -1,5 +1,7 @@
+import type { TLang } from 'ag-common/dist/common/helpers/i18n';
 import { objectToString } from 'ag-common/dist/common/helpers/object';
 import { stripUrl } from 'ag-common/dist/common/helpers/string';
+import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
 import { getRenderLanguage } from 'ag-common/dist/ui/helpers/routes';
 
 export const getPathName = ({
@@ -21,7 +23,13 @@ export const getNextAppRequest = ({
   overrides?: {
     pathname?: string;
   };
-}) => {
+}): {
+  url: URLLite;
+  query: Record<string, string>;
+  userAgent: string;
+  lang: TLang;
+  cookieDocument: string;
+} => {
   let query: Record<string, string> = {};
   if (headers.get('x-invoke-query')) {
     query = JSON.parse(
@@ -42,7 +50,7 @@ export const getNextAppRequest = ({
     url += qs;
   }
 
-  const cookieDocument = headers.get('cookie');
+  const cookieDocument = headers.get('cookie') || '';
 
   return {
     url: stripUrl(new URL(url)),
