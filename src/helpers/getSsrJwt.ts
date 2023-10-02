@@ -11,7 +11,11 @@ export const getSsrJwt = async ({
   allCookies: { name: string; value: string }[];
 }): Promise<IJWT | undefined> => {
   const sessionTokenEnc = allCookies
-    .filter((r) => r.name.startsWith('next-auth.session-token'))
+    .filter(
+      (r) =>
+        r.name.startsWith('next-auth.session-token') ||
+        r.name.startsWith('__Secure-next-auth.session-token'),
+    )
     .map((s) => s.value)
     .join('');
   if (!sessionTokenEnc) {
