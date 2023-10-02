@@ -12,7 +12,7 @@ export const getPathName = ({
   (
     headers.get('x-invoke-path') ??
     headers.get('next-url') ??
-    headers.get('x-pathname') ??
+    headers.get('x-invoke-path2') ??
     '/'
   )
     //remote hashroute/querystring
@@ -38,7 +38,9 @@ export const getNextAppRequest = ({
   let query: Record<string, string> = {};
   if (headers.get('x-invoke-query')) {
     query = JSON.parse(
-      decodeURIComponent(headers.get('x-invoke-query') ?? '{}'),
+      decodeURIComponent(
+        headers.get('x-invoke-query') ?? headers.get('x-invoke-query2') ?? '{}',
+      ),
     );
   }
 
