@@ -12,8 +12,8 @@ importers:
         specifier: '>=0.0.501'
         version: 0.0.501
       next-auth:
-        specifier: 4.23.1
-        version: 4.23.1(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
+        specifier: 4.23.2
+        version: 4.23.2(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
       react:
         specifier: '>=18'
         version: 18.0.0
@@ -25,8 +25,8 @@ importers:
         specifier: 3.15.0
         version: 3.15.0(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
       '@types/react':
-        specifier: 18.2.23
-        version: 18.2.23
+        specifier: 18.2.24
+        version: 18.2.24
       eslint-config-e7npm:
         specifier: 0.0.40
         version: 0.0.40
@@ -1465,7 +1465,7 @@ packages:
     resolution: {integrity: sha512-ZVfejlu81YiIRX1m0iKAfvZ3nK7K9EyZWhNARNKsFop8kNAgEvMnlKpTpwN59xkK2OhyWLagPuiDAVBYSO9jSA==}
     deprecated: This is a stub types definition. next-auth provides its own type definitions, so you do not need this installed.
     dependencies:
-      next-auth: 4.23.1(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
+      next-auth: 4.23.2(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
     transitivePeerDependencies:
       - next
       - nodemailer
@@ -1489,8 +1489,8 @@ packages:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
     dev: false
 
-  /@types/react@18.2.23:
-    resolution: {integrity: sha512-qHLW6n1q2+7KyBEYnrZpcsAmU/iiCh9WGCKgXvMxx89+TYdJWRjZohVIo9XTcoLhfX3+/hP0Pbulu3bCZQ9PSA==}
+  /@types/react@18.2.24:
+    resolution: {integrity: sha512-Ee0Jt4sbJxMu1iDcetZEIKQr99J1Zfb6D4F3qfUWoR1JpInkY1Wdg4WwCyBjL257D0+jGqSl1twBjV8iCaC0Aw==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -3322,8 +3322,8 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-auth@4.23.1(next@13.4.16)(react-dom@18.2.0)(react@18.0.0):
-    resolution: {integrity: sha512-mL083z8KgRtlrIV6CDca2H1kduWJuK/3pTS0Fe2og15KOm4v2kkLGdSDfc2g+019aEBrJUT0pPW2Xx42ImN1WA==}
+  /next-auth@4.23.2(next@13.4.16)(react-dom@18.2.0)(react@18.0.0):
+    resolution: {integrity: sha512-VRmInu0r/yZNFQheDFeOKtiugu3bt90Po3owAQDnFQ3YLQFmUKgFjcE2+3L0ny5jsJpBXaKbm7j7W2QTc6Ye2A==}
     peerDependencies:
       next: ^12.2.5 || ^13
       nodemailer: ^6.6.5
