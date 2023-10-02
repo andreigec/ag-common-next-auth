@@ -1,5 +1,3 @@
-import { warn } from 'ag-common/dist/common/helpers/log';
-
 import type { ISession } from '../types';
 import { getSsrJwt, jwtToSession } from './getSsrJwt';
 
@@ -17,7 +15,6 @@ export const getServerSession = async ({
   const jwt = await getSsrJwt({ allCookies: cookies.getAll() });
 
   if (!jwt?.idToken) {
-    warn('error no idtoken for session');
     return undefined;
   }
 

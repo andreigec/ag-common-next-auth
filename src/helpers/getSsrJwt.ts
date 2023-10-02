@@ -1,4 +1,4 @@
-import { warn } from 'ag-common/dist/common/helpers/log';
+import { error, warn } from 'ag-common/dist/common/helpers/log';
 import { decode } from 'next-auth/jwt';
 
 import type { IJWT, ISession } from '../types';
@@ -15,6 +15,7 @@ export const getSsrJwt = async ({
     .map((s) => s.value)
     .join('');
   if (!sessionTokenEnc) {
+    error('error, no session next-auth token');
     return undefined;
   }
   try {
@@ -22,7 +23,12 @@ export const getSsrJwt = async ({
       token: sessionTokenEnc,
       secret: process.env.NEXTAUTH_SECRET ?? '',
     })) as IJWT;
-    return !decoded?.idToken ? undefined : decoded;
+
+    if (!decoded.idToken) {
+      error('decoded jwt has no idToken', sessionTokenEnc);
+      return undefined;
+    }
+    return decoded;
   } catch (e) {
     warn('jwt decode error:', (e as Error).toString());
   }
