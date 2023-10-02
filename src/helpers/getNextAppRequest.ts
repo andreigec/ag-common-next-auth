@@ -15,8 +15,12 @@ export const getPathName = ({
  * next13 server only */
 export const getNextAppRequest = ({
   headers,
+  overrides,
 }: {
   headers: { get: (s: string) => string | null };
+  overrides?: {
+    pathname?: string;
+  };
 }) => {
   let query: Record<string, string> = {};
   if (headers.get('x-invoke-query')) {
@@ -27,7 +31,7 @@ export const getNextAppRequest = ({
 
   const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
   const host = headers.get('host') ?? '';
-  const pathname = getPathName({ headers });
+  const pathname = overrides?.pathname ?? getPathName({ headers });
 
   const protocol =
     host.includes(':443') || !host.includes(':') ? 'https:' : 'http:';
