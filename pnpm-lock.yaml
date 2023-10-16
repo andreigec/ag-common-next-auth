@@ -28,8 +28,8 @@ importers:
         specifier: 18.2.28
         version: 18.2.28
       eslint-config-e7npm:
-        specifier: 0.0.44
-        version: 0.0.44
+        specifier: 0.0.45
+        version: 0.0.45
       rimraf:
         specifier: 5.0.5
         version: 5.0.5
@@ -2248,8 +2248,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-e7npm@0.0.44:
-    resolution: {integrity: sha512-z7nVuXWEvulL9u9jxOb+BupCi0l/fNaAEAgfI0933mwZhTBrK3GnvSieK3HkaMHYVncSib0zEnJpXdE9UDF0Hg==}
+  /eslint-config-e7npm@0.0.45:
+    resolution: {integrity: sha512-+cNpgFh736O9rYt8zF9mr6wy54Adh0bm2ad5eIYF1LN8DyAxi4gqq1wtc9eC/o9EoSC4jmoHG3mALfcpgx51bg==}
     requiresBuild: true
     dependencies:
       '@typescript-eslint/eslint-plugin': 6.7.5(@typescript-eslint/parser@6.7.5)(eslint@8.51.0)(typescript@5.2.2)
