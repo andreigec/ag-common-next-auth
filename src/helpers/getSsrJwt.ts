@@ -1,4 +1,4 @@
-import { error, warn } from 'ag-common/dist/common/helpers/log';
+import { error, info, warn } from 'ag-common/dist/common/helpers/log';
 import { decode } from 'next-auth/jwt';
 
 import type { IJWT, ISession } from '../types';
@@ -15,7 +15,7 @@ export const getSsrJwt = async ({
     .map((s) => s.value)
     .join('');
   if (!sessionTokenEnc) {
-    error('error, no session next-auth token');
+    info('no session next-auth token');
     return undefined;
   }
   try {
