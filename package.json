@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "ag-common": ">=0.0.501",
-    "next-auth": "4.24.4",
+    "next-auth": "4.24.5",
     "react": ">=18",
     "typescript": ">=5"
   },
