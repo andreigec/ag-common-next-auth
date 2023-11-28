@@ -10,12 +10,18 @@ export const getSsrJwt = async ({
   /** cookies().getAll() */
   allCookies: { name: string; value: string }[];
 }): Promise<IJWT | undefined> => {
+  if (allCookies.length === 0) {
+    warn('getSsrJwt: no cookies received!');
+    return undefined;
+  }
   const sessionTokenEnc = allCookies
     .filter((r) => r.name.includes('next-auth.session-token'))
     .map((s) => s.value)
     .join('');
   if (!sessionTokenEnc) {
-    info('no session next-auth token');
+    const list = allCookies.map((c) => c.name);
+    info(`no session next-auth token, but saw these:\n${list.join(' ')}`);
+
     return undefined;
   }
   try {
