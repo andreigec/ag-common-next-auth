@@ -11,7 +11,7 @@ export const getSsrJwt = async ({
   allCookies: { name: string; value: string }[];
 }): Promise<IJWT | undefined> => {
   if (allCookies.length === 0) {
-    warn('getSsrJwt: no cookies received!');
+    info('getSsrJwt: no cookies received!');
     return undefined;
   }
   const sessionTokenEnc = allCookies
@@ -21,6 +21,10 @@ export const getSsrJwt = async ({
   if (!sessionTokenEnc) {
     const list = allCookies.map((c) => c.name);
     info(`no session next-auth token, but saw these:\n${list.join(' ')}`);
+    const j = allCookies.find((r) => r.name === '_vercel_jwt');
+    if (j?.value) {
+      info('_vercel_jwt=', j.value);
+    }
 
     return undefined;
   }
