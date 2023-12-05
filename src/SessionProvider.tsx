@@ -91,7 +91,13 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
       nickname: su.name || '',
     };
   }
-  debug(`session user. isauth?=${isAuthenticated} email=${su?.email}`);
+  debug(
+    `session isauth?=${isAuthenticated}
+    \ndebug raw=`,
+    JSON.stringify(raw.data, null, 2),
+    ' \nuser=',
+    JSON.stringify(user, null, 2),
+  );
 
   const state: ISessionProvider = {
     login: () => signIn('cognito', p.signinOpt),
