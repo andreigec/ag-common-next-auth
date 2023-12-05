@@ -41,7 +41,7 @@ export const SessionContext = createContext<ISessionProvider>({} as any);
 
 const WithSessionProvider = (p: ISessionProviderProps) => {
   const raw = useSession(p.useSessionOpt);
-  const session = raw.data as ISession;
+  const session = raw.data as ISession | undefined;
 
   useInterval(() => {
     try {
@@ -92,7 +92,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
     };
   }
   debug(
-    `session user. isauth?=${isAuthenticated} email=${su?.email} expires=${session.expires}`,
+    `session user. isauth?=${isAuthenticated} email=${su?.email} expires=${session?.expires}`,
   );
 
   const state: ISessionProvider = {
@@ -107,7 +107,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
     isAuthenticated,
     authLoading,
     user,
-    session,
+    session: session as ISession,
   };
 
   return (
