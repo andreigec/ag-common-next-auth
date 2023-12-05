@@ -31,3 +31,17 @@ export interface INextRequest {
   lang: TLang;
   cookieDocument: string | null;
 }
+
+export interface ICognitoRefresh {
+  client_id: string;
+  COGNITO_BASE: string;
+  client_secret: string;
+}
+export type TRefreshType = { type: 'direct' } | ICognitoRefresh;
+
+export type TRefreshTypeIn =
+  | { type: 'direct' }
+  | {
+      client_id: string;
+      COGNITO_BASE: string;
+    };

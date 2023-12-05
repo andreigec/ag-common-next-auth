@@ -1,22 +1,23 @@
 import { warn } from 'ag-common/dist/common/helpers/log';
 
+import type { ICognitoRefresh } from '../types';
+
 const stringify = (p: Record<string, string>) => {
   const params = new URLSearchParams();
   Object.entries(p).forEach(([a, b]) => params.append(a, b));
   return params;
 };
 
-export const refreshCognitoAccessToken = async (p: {
-  refresh_token?: string;
-  clientSecret?: string;
-  COGNITO_CLIENT_ID: string;
-  COGNITO_BASE: string;
-}) => {
+export const refreshCognitoAccessToken = async (
+  p: {
+    refresh_token?: string;
+  } & ICognitoRefresh,
+) => {
   if (!p.refresh_token) {
     warn('no refresh token');
     return {};
   }
-  if (!p.clientSecret) {
+  if (!p.client_secret) {
     warn('no cog secret');
     return {};
   }
@@ -27,9 +28,9 @@ export const refreshCognitoAccessToken = async (p: {
     }),
     body: stringify({
       grant_type: 'refresh_token',
-      client_id: p.COGNITO_CLIENT_ID,
+      client_id: p.client_id,
       refresh_token: p.refresh_token,
-      client_secret: p.clientSecret,
+      client_secret: p.client_secret,
     }),
   };
   const req = await fetch(p.COGNITO_BASE + '/oauth2/token', opt);

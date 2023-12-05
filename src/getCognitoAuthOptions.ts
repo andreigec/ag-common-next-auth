@@ -105,9 +105,9 @@ export const getCognitoAuthOptions = (p: {
             warn('will refresh token');
             const { tokens } = await refreshCognitoAccessToken({
               refresh_token: token?.refreshToken,
-              clientSecret: p.COGNITO_CLIENT_SECRET,
+              client_secret: p.COGNITO_CLIENT_SECRET,
               COGNITO_BASE: p.COGNITO_BASE,
-              COGNITO_CLIENT_ID: p.COGNITO_CLIENT_ID,
+              client_id: p.COGNITO_CLIENT_ID,
             });
             token = {
               ...token,

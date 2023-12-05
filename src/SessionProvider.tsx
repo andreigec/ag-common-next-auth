@@ -92,11 +92,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
     };
   }
   debug(
-    `session isauth?=${isAuthenticated}
-    \ndebug raw=`,
-    JSON.stringify(raw.data, null, 2),
-    ' \nuser=',
-    JSON.stringify(user, null, 2),
+    `session user. isauth?=${isAuthenticated} email=${su?.email} expires=${session.expires}`,
   );
 
   const state: ISessionProvider = {
