@@ -23,7 +23,7 @@
     "@types/next-auth": "3.15.0",
     "eslint-config-e7npm": "0.0.70",
     "rimraf": "5.0.5",
-    "@types/react": "18.2.45"
+    "@types/react": "18.2.46"
   },
   "files": [
     "dist/**/*",
