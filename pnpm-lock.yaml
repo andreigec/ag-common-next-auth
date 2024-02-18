@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       ag-common:
-        specifier: '>=0.0.608'
-        version: 0.0.608(@aws-sdk/credential-provider-node@3.504.0)
+        specifier: '>=0.0.632'
+        version: 0.0.632(@aws-sdk/credential-provider-node@3.504.0)
       next-auth:
         specifier: 4.24.6
         version: 4.24.6(next@13.4.16)(react-dom@18.2.0)(react@18.0.0)
@@ -1829,8 +1829,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ag-common@0.0.608(@aws-sdk/credential-provider-node@3.504.0):
-    resolution: {integrity: sha512-7+oEl91HSbDoqBDUD7opgXGNt3XNRFuWL5hSdsQ7rLVAxmwZ/ueYBddt5gKd4WDDUYi44wTfaFM+aNyQJKoX1Q==}
+  /ag-common@0.0.632(@aws-sdk/credential-provider-node@3.504.0):
+    resolution: {integrity: sha512-9Rlvg2ss+g5xz71/qSsZaZglt8PXw6srzKoCk99KstEaBPxQ4zl3wswipwv+jDKt4SqYT9Aj90/mNZ/PxZgmxQ==}
     requiresBuild: true
     dependencies:
       '@aws-sdk/client-dynamodb': 3.504.0

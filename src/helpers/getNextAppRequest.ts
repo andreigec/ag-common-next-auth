@@ -1,7 +1,7 @@
 import type { TLang } from 'ag-common/dist/common/helpers/i18n';
 import { info } from 'ag-common/dist/common/helpers/log';
 import { objectToString } from 'ag-common/dist/common/helpers/object';
-import { stripUrl } from 'ag-common/dist/common/helpers/string';
+import { stringToObject, stripUrl } from 'ag-common/dist/common/helpers/string';
 import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
 import { getRenderLanguage } from 'ag-common/dist/ui/helpers/routes';
 
@@ -28,7 +28,11 @@ const getQs = ({
   const qraw =
     headers.get('x-invoke-query') ?? headers.get('x-invoke-query2') ?? '{}';
   try {
-    query = JSON.parse(decodeURIComponent(qraw));
+    if (qraw.startsWith('?')) {
+      query = stringToObject(qraw.substring(1), '=', '&');
+    } else {
+      query = JSON.parse(decodeURIComponent(qraw));
+    }
   } catch (e) {
     info('bad qs passed=', qraw);
   }
