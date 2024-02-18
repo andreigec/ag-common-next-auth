@@ -26,7 +26,7 @@ const getQs = ({
 }) => {
   let query: Record<string, string> = {};
   const qraw =
-    headers.get('x-invoke-query') ?? headers.get('x-invoke-query2') ?? '{}';
+    headers.get('x-invoke-query') || headers.get('x-invoke-query2') || '{}';
   try {
     if (qraw.startsWith('?')) {
       query = stringToObject(qraw.substring(1), '=', '&');
