@@ -8,9 +8,11 @@
   "license": "ISC",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "format": "npx eslint --ext .ts,.tsx ./src --fix",
+    "format": "eslint --ext .ts,.tsx,.js,.json src --fix",
+    "lint:tsc": "tsc --noEmit",
+    "lint:eslint": "eslint --ext .ts,.tsx,.js,.json src",
+    "lint": "pnpm run /^lint:/",
     "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
-    "lint": "npx eslint --ext .ts,.tsx ./src",
     "test": "npm run build && ts-node src/exported.test.ts"
   },
   "dependencies": {
