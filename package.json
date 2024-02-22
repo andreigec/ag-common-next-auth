@@ -23,9 +23,9 @@
   },
   "devDependencies": {
     "@types/next-auth": "3.15.0",
-    "eslint-config-e7npm": "0.0.85",
+    "eslint-config-e7npm": "0.0.87",
     "rimraf": "5.0.5",
-    "@types/react": "18.2.56"
+    "@types/react": "18.2.57"
   },
   "files": [
     "dist/**/*",
