@@ -17,7 +17,7 @@ export function parseJwt(token: string) {
 }
 export function getExpMins(token: IJWT) {
   //have to pull out of jwt itself
-  const tokenExp = !token?.idToken
+  const tokenExp = !token.idToken
     ? undefined
     : new Date(Number(parseJwt(token.idToken).exp + '000'));
   if (!tokenExp) {

@@ -67,10 +67,10 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
   }, [p.signinOpt, session]);
   //
   let isAuthenticated =
-    raw.status === 'authenticated' && !!session?.token?.idToken;
+    raw.status === 'authenticated' && !!session?.token.idToken;
   const authLoading =
     raw.status === 'loading' ||
-    (raw.status === 'authenticated' && !session?.token?.idToken);
+    (raw.status === 'authenticated' && !session?.token.idToken);
 
   let user: User | undefined;
   const su = session?.user;

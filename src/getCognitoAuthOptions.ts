@@ -74,9 +74,9 @@ export const getCognitoAuthOptions = (p: {
           };
 
           let image: string | undefined;
-          if (token?.picture?.startsWith('http')) {
+          if (token.picture?.startsWith('http')) {
             image = token.picture;
-          } else if (token?.picture && isJson(token.picture)) {
+          } else if (token.picture && isJson(token.picture)) {
             image = JSON.parse(token.picture)?.data?.url;
           }
 
@@ -86,7 +86,7 @@ export const getCognitoAuthOptions = (p: {
             ...(account?.id_token && { idToken: account.id_token }),
             ...(account?.refresh_token && {
               refreshToken: account.refresh_token,
-              ...(account?.expires_at && { expiresAt: account.expires_at }),
+              ...(account.expires_at && { expiresAt: account.expires_at }),
             }),
             user: {
               id: token.email ?? token.name ?? '',
@@ -104,7 +104,7 @@ export const getCognitoAuthOptions = (p: {
           if (!tokenexpmins || tokenexpmins <= 5) {
             warn('will refresh token');
             const { tokens } = await refreshCognitoAccessToken({
-              refresh_token: token?.refreshToken,
+              refresh_token: token.refreshToken,
               client_secret: p.COGNITO_CLIENT_SECRET,
               COGNITO_BASE: p.COGNITO_BASE,
               client_id: p.COGNITO_CLIENT_ID,
