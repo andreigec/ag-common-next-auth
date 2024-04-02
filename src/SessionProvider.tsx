@@ -33,7 +33,7 @@ export interface ISessionProvider {
   isAuthenticated: boolean;
   authLoading: boolean;
   user: User | undefined;
-  session: ISession;
+  session?: ISession;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +41,7 @@ export const SessionContext = createContext<ISessionProvider>({} as any);
 
 const WithSessionProvider = (p: ISessionProviderProps) => {
   const raw = useSession(p.useSessionOpt);
-  const session = raw.data as ISession | undefined;
+  const session = (raw.data ?? undefined) as ISession | undefined;
 
   useInterval(() => {
     try {
@@ -107,7 +107,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
     isAuthenticated,
     authLoading,
     user,
-    session: session as ISession,
+    session,
   };
 
   return (
