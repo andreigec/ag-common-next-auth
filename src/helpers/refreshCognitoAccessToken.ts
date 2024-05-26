@@ -47,7 +47,7 @@ export const refreshCognitoAccessToken = async (
     expires_in: res.expires_in,
     tokens: {
       accessToken: res.access_token,
-      refreshToken: res.refresh_token ?? p.refresh_token, // Fall back to old refresh token
+      refreshToken: res.refresh_token || p.refresh_token, // Fall back to old refresh token
       idToken: res.id_token,
     },
   };

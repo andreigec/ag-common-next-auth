@@ -53,6 +53,7 @@ export const getCognitoAuthOptions = (p: {
             dateDiff(new Date(), new Date(sRaw.session.expires)).totalMinutes,
         );
         const session = jwtToSession(
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           { ...token, user: token.user || sRaw.user },
           sRaw.session.expires,
         );

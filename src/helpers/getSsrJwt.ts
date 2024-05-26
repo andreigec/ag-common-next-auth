@@ -49,6 +49,7 @@ export const getSsrJwt = async ({
         error('jwt expired, and has no refresh', sessionTokenEnc);
         return undefined;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!refreshType) {
         error('error: jwt expired, and no refresh type', sessionTokenEnc);
         return undefined;

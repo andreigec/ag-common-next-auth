@@ -44,19 +44,21 @@ const getQs = ({
   return { search, query };
 };
 
+export interface IGetNextAppRequest {
+  url: URLLite;
+  query: Record<string, string>;
+  userAgent: string;
+  lang: TLang;
+  cookieDocument: string;
+}
+
 /** get request details
  * next13 server only */
 export const getNextAppRequest = ({
   headers,
 }: {
   headers: { get: (s: string) => string | null };
-}): {
-  url: URLLite;
-  query: Record<string, string>;
-  userAgent: string;
-  lang: TLang;
-  cookieDocument: string;
-} => {
+}): IGetNextAppRequest => {
   const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
   const host = headers.get('host') ?? '';
   const pathname = getPathName({ headers });
