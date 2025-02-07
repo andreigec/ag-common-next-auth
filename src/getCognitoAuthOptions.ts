@@ -1,7 +1,7 @@
 import { dateDiff } from 'ag-common/dist/common/helpers/date';
 import { debug, error, warn } from 'ag-common/dist/common/helpers/log';
 import { isJson } from 'ag-common/dist/common/helpers/object';
-import type { Account, Profile } from 'next-auth/core/types';
+import type { Account, Profile } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import CognitoProvider from 'next-auth/providers/cognito';
 
