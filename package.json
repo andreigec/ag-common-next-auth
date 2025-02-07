@@ -8,9 +8,9 @@
   "license": "ISC",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "format": "eslint --ext .ts,.tsx src --fix",
+    "format": "eslint src --fix",
     "lint:tsc": "tsc --noEmit",
-    "lint:eslint": "eslint --ext .ts,.tsx src",
+    "lint:eslint": "eslint src",
     "lint": "pnpm run /^lint:/",
     "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
     "test": "npm run build && ts-node src/exported.test.ts"
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/next-auth": "3.15.0",
-    "eslint-config-e7npm": "0.0.104",
+    "eslint-config-e7npm": "0.1.13",
     "rimraf": "5.0.10",
     "@types/react": "18.3.3"
   },

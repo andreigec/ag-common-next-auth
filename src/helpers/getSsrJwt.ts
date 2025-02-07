@@ -84,10 +84,10 @@ export const jwtToSession = (j: IJWT, sessionExp?: string): ISession => ({
     accessToken: j.accessToken,
     idToken: j.idToken,
     refreshToken: j.refreshToken,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     expiresAt: (j as any).exp,
   },
   user: j.user,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   expires: sessionExp || new Date(Number(j.exp + '000')).toISOString(),
 });

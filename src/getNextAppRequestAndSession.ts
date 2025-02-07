@@ -31,7 +31,6 @@ export const getNextAppRequestAndSession = async ({
   session?: ISession;
   request: INextRequest;
 }> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const refreshType: TRefreshType = refreshTypeRaw as any;
   if ('COGNITO_BASE' in refreshType) {
     refreshType.client_secret = process.env.COGNITO_CLIENT_SECRET || '';

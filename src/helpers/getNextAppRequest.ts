@@ -33,6 +33,7 @@ const getQs = ({
     } else {
       query = JSON.parse(decodeURIComponent(qraw));
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     info('bad qs passed=', qraw);
   }

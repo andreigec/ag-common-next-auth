@@ -36,7 +36,6 @@ export interface ISessionProvider {
   session?: ISession;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SessionContext = createContext<ISessionProvider>({} as any);
 
 const WithSessionProvider = (p: ISessionProviderProps) => {
@@ -48,13 +47,13 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
       debug('triggering visibilitychange for jwt/session refresh');
       //refresh the session + jwt
       document.dispatchEvent(new Event('visibilitychange'));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       warn('error refreshing session');
     }
   }, 4 * 60000);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const se = (session as any)?.error;
     if (se) {
       if (se === 'RefreshAccessTokenError') {
@@ -85,7 +84,7 @@ const WithSessionProvider = (p: ISessionProviderProps) => {
       userId: su.email,
       picture: su.image || '',
       isAdmin: su.isAdmin,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       idJwt: undefined as any,
       updatedAt: new Date().getTime(),
       nickname: su.name || '',

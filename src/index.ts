@@ -4,4 +4,4 @@ export * from './getNextAppRequestAndSession';
 export * from './helpers/getNextAppRequest';
 export * from './helpers/getServerSession';
 export * from './SessionProvider';
-export * from './types';
+export type * from './types';

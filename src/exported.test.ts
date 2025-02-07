@@ -5,8 +5,9 @@ import CognitoProvider from 'next-auth/providers/cognito';
 function test() {
   try {
     //@ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     new CognitoProvider(undefined as any);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     debug('next-auth export test OK');
     //
