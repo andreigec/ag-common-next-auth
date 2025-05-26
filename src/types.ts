@@ -48,6 +48,6 @@ export type TRefreshTypeIn =
       COGNITO_BASE: string;
     };
 
-export type NextCookies = Promise<ReadonlyRequestCookies>;
+export type NextCookies = () => Promise<ReadonlyRequestCookies>;
 
-export type NextHeaders = Promise<ReadonlyHeaders>;
+export type NextHeaders = () => Promise<ReadonlyHeaders>;

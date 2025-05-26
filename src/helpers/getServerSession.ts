@@ -10,7 +10,7 @@ export const getServerSession = async ({
   refreshType: TRefreshType;
 }): Promise<ISession | undefined> => {
   const jwt = await getSsrJwt({
-    allCookies: (await cookies).getAll(),
+    allCookies: (await cookies()).getAll(),
     refreshType,
   });
 
