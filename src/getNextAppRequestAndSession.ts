@@ -5,6 +5,8 @@ import { getServerSession } from './helpers/getServerSession';
 import type {
   INextRequest,
   ISession,
+  NextCookies,
+  NextHeaders,
   TRefreshType,
   TRefreshTypeIn,
 } from './types';
@@ -18,14 +20,9 @@ export const getNextAppRequestAndSession = async ({
   refreshType: refreshTypeRaw,
 }: {
   /** use next/headers() */
-  headers: { get: (s: string) => string | null };
+  headers: NextHeaders;
   /** use next/cookies() */
-  cookies: {
-    getAll: () => {
-      name: string;
-      value: string;
-    }[];
-  };
+  cookies: NextCookies;
   refreshType: TRefreshTypeIn;
 }): Promise<{
   session?: ISession;
@@ -44,6 +41,6 @@ export const getNextAppRequestAndSession = async ({
       cookies,
       refreshType,
     }),
-    request: getNextAppRequest({ headers }),
+    request: await getNextAppRequest({ headers }),
   };
 };

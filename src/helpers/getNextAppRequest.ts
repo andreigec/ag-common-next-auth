@@ -5,6 +5,8 @@ import { stringToObject, stripUrl } from 'ag-common/dist/common/helpers/string';
 import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
 import { getRenderLanguage } from 'ag-common/dist/ui/helpers/routes';
 
+import type { NextHeaders } from '../types';
+
 const getPathName = ({
   headers,
 }: {
@@ -55,11 +57,12 @@ export interface IGetNextAppRequest {
 
 /** get request details
  * next13 server only */
-export const getNextAppRequest = ({
-  headers,
+export const getNextAppRequest = async ({
+  headers: h,
 }: {
-  headers: { get: (s: string) => string | null };
-}): IGetNextAppRequest => {
+  headers: NextHeaders;
+}): Promise<IGetNextAppRequest> => {
+  var headers = await h;
   const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
   const host = headers.get('host') ?? '';
   const pathname = getPathName({ headers });

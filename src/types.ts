@@ -45,3 +45,14 @@ export type TRefreshTypeIn =
       client_id: string;
       COGNITO_BASE: string;
     };
+
+export type NextCookies = Promise<{
+  getAll: () => {
+    name: string;
+    value: string;
+  }[];
+}>;
+
+export type NextHeaders = Promise<{
+  get: (s: string) => string | null;
+}>;
