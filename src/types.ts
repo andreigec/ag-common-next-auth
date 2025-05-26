@@ -1,5 +1,7 @@
 import type { TLang } from 'ag-common/dist/common/helpers/i18n';
 import type { URLLite } from 'ag-common/dist/ui/helpers/routes';
+import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
+import { type ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 import type { DefaultSession, User } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 
@@ -46,13 +48,6 @@ export type TRefreshTypeIn =
       COGNITO_BASE: string;
     };
 
-export type NextCookies = Promise<{
-  getAll: () => {
-    name: string;
-    value: string;
-  }[];
-}>;
+export type NextCookies = Promise<ReadonlyRequestCookies>;
 
-export type NextHeaders = Promise<{
-  get: (s: string) => string | null;
-}>;
+export type NextHeaders = Promise<ReadonlyHeaders>;

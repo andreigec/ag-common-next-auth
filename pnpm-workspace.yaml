@@ -3,3 +3,4 @@ packages:
 onlyBuiltDependencies:
   - ag-common
   - eslint-config-e7npm
+  - sharp
