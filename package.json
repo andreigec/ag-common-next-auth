@@ -1,6 +1,6 @@
 {
   "name": "ag-common-next-auth",
-  "version": "0.0.148",
+  "version": "0.0.149",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Andrei Gec <@andreigec> (https://gec.dev/)",
