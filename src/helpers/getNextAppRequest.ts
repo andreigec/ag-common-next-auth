@@ -62,7 +62,7 @@ export const getNextAppRequest = async ({
 }: {
   headers: NextHeaders;
 }): Promise<IGetNextAppRequest> => {
-  const hv = await headers();
+  const hv = await headers;
   const userAgent = hv.get('user-agent')?.toLowerCase() ?? '';
   const host = hv.get('host') ?? '';
   const pathname = getPathName({ headers: hv });
