@@ -55,10 +55,10 @@ jobs:
       with:
         commit-message: 'CI: bumps version to {{version}} [skip ci]'
 
-    - name: Run npm build
+    - name: Run pnpm build
       env:
         CI: false
-      run: npm run build
+      run: pnpm run build
 
     - uses: JS-DevTools/npm-publish@v3
       with:
