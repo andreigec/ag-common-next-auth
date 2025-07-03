@@ -58,26 +58,26 @@ export interface IGetNextAppRequest {
 /** get request details
  * next13 server only */
 export const getNextAppRequest = async ({
-  headers: h,
+  headers,
 }: {
   headers: NextHeaders;
 }): Promise<IGetNextAppRequest> => {
-  const headers = await h();
-  const userAgent = headers.get('user-agent')?.toLowerCase() ?? '';
-  const host = headers.get('host') ?? '';
-  const pathname = getPathName({ headers });
+  const hv = await headers();
+  const userAgent = hv.get('user-agent')?.toLowerCase() ?? '';
+  const host = hv.get('host') ?? '';
+  const pathname = getPathName({ headers: hv });
 
   const protocol =
     host.includes(':443') || !host.includes(':') ? 'https:' : 'http:';
 
   let url = `${protocol}${host}${pathname}`;
 
-  const { search, query } = getQs({ headers });
+  const { search, query } = getQs({ headers: hv });
   if (search) {
     url += search;
   }
 
-  const cookieDocument = headers.get('cookie') || '';
+  const cookieDocument = hv.get('cookie') || '';
 
   return {
     url: stripUrl(new URL(url)),
