@@ -16,17 +16,17 @@
     "test": "npm run build && ts-node src/exported.test.ts"
   },
   "dependencies": {
-    "ag-common": ">=0.0.729",
-    "next-auth": "4.24.11",
-    "react": ">=18",
+    "ag-common": ">=0.0.747",
+    "next-auth": ">=4",
+    "react": ">=19",
     "typescript": ">=5"
   },
   "devDependencies": {
     "@types/next-auth": "3.15.0",
-    "@types/react": "18.3.22",
-    "eslint-config-e7npm": "0.1.13",
-    "next": "^15.3.2",
-    "rimraf": "5.0.10"
+    "@types/react": "19.1.8",
+    "eslint-config-e7npm": "0.1.23",
+    "next": "^15.3.4",
+    "rimraf": "^6"
   },
   "files": [
     "dist/**/*",

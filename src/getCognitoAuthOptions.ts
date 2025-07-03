@@ -66,6 +66,7 @@ export const getCognitoAuthOptions = (p: {
       },
       async jwt(jRaw) {
         try {
+          // eslint-disable-next-line prefer-const
           let { token, account } = JSON.parse(JSON.stringify(jRaw)) as {
             token: IJWT;
             account?: Account;
